@@ -1,6 +1,5 @@
 {% set version = '1.33.0' %}
 {% set posix = 'm2-' if win else '' %}
-{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: r-mvr
@@ -13,8 +12,7 @@ source:
   sha256: e8ada15c6e98e55fdd0785df6a7ef798dd22acde5dff42715725972bd421fff9
 
 build:
-  merge_build_host: True  # [win]
-  number: 3
+  number: 4
   rpaths:
     - lib/R/lib/
     - lib/
@@ -22,7 +20,9 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}              # [not win]
+    - {{ stdlib("c") }}                # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
+    - {{ stdlib("m2w64_c") }}          # [win]
     - {{ compiler('cxx') }}            # [not win]
     - {{ compiler('m2w64_cxx') }}      # [win]
     - {{ posix }}filesystem        # [win]
@@ -36,7 +36,6 @@ requirements:
     - r-statmod
   run:
     - r-base
-    - {{ native }}gcc-libs         # [win]
     - r-statmod
 
 test:
